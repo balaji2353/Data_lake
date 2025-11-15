@@ -1,6 +1,2 @@
-module "redshift" {
-  source         = "../modules/redshift"
-  namespace_name = "taxdatalake-nonprod"
-  workgroup_name = "redshift-serverless"
-  tags           = {}
-}
+// Root moved to environment-specific folders under `environments/`
+// See `environments/dev/main.tf` and `environments/prod/main.tf`
