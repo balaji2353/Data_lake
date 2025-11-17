@@ -1,17 +1,32 @@
+locals {
+  source_endpoints = {
+    bolton = {
+      endpoint_id   = var.source_endpoint_id
+      engine_name   = var.source_engine_name
+      username      = var.source_username
+      password      = var.source_password
+      server_name   = var.source_server_name
+      port          = var.source_port
+      database_name = var.source_database_name
+      tags          = var.tags
+    }
+  }
+
+  target_endpoints = {
+    bolton = {
+      endpoint_id   = var.target_endpoint_id
+      bucket_name   = var.target_bucket_name
+      iam_role_name = var.target_iam_role_name
+      tags          = var.tags
+    }
+  }
+}
+
 module "endpoints" {
   source = "../../modules/dms_endpoints"
 
-  source_endpoint_id      = var.source_endpoint_id
-  source_engine_name      = var.source_engine_name
-  source_username         = var.source_username
-  source_password         = var.source_password
-  source_server_name      = var.source_server_name
-  source_port             = var.source_port
-  source_database_name    = var.source_database_name
-
-  target_endpoint_id      = var.target_endpoint_id
-  target_bucket_name      = var.target_bucket_name
-  target_iam_role_name    = var.target_iam_role_name
+  source_endpoints = local.source_endpoints
+  target_endpoints = local.target_endpoints
 
   tags = var.tags
 }
@@ -27,16 +42,25 @@ module "replication_instance" {
   tags = var.tags
 }
 
+locals {
+  replication_tasks = {
+    (var.replication_task_id) = {
+      replication_instance_arn = module.replication_instance.replication_instance_arn
+      source_endpoint_arn      = module.endpoints.source_endpoint_arn
+      target_endpoint_arn      = module.endpoints.target_endpoint_arn
+      table_mappings           = file("${path.module}/table-mappings.json")
+      migration_type           = var.migration_type
+      cdc_start_time           = var.cdc_start_time
+      start_replication_task   = false
+      tags                     = var.tags
+    }
+  }
+}
+
 module "replication_task" {
   source = "../../modules/dms_replication_task"
 
-  replication_task_id      = var.replication_task_id
-  replication_instance_arn = module.replication_instance.replication_instance_arn
-  source_endpoint_arn      = module.endpoints.source_endpoint_arn
-  target_endpoint_arn      = module.endpoints.target_endpoint_arn
-  migration_type           = var.migration_type
-  table_mappings           = file("${path.module}/table-mappings.json")
-  cdc_start_time           = var.cdc_start_time
+  replication_tasks = local.replication_tasks
 
   tags = var.tags
 }

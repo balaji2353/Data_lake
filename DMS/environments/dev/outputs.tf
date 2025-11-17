@@ -20,5 +20,5 @@ output "replication_task_arn" {
 
 output "replication_task_status" {
   description = "Replication task status"
-  value       = module.replication_task.status
+  value       = module.replication_task.replication_task_status
 }

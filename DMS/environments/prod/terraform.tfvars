@@ -25,3 +25,28 @@ tags = {
   Name        = "dms-bolton-prod"
   ManagedBy   = "Terraform"
 }
+
+# Multi-item examples (preferred for multiple endpoints/tasks)
+source_endpoints = {
+  bolton = {
+    endpoint_id   = "bolton-gst-analytics-prod"
+    engine_name   = "sqlserver"
+    username      = "DMSForITPProd"
+    password      = "YourProductionPassword123!"
+    server_name   = "prod-db.cqd9d5qa5zwv.ap-south-1.rds.amazonaws.com"
+    port          = 1433
+    database_name = "GSTPlusAnalytics"
+    tags          = { Environment = "prod" }
+  }
+}
+
+target_endpoints = {
+  bolton = {
+    endpoint_id   = "bolton-target-gstin-prod"
+    bucket_name   = "taxdata-lake-bronze-prod"
+    iam_role_name = "dms-s3-target-role-prod"
+    tags          = { Environment = "prod" }
+  }
+}
+
+# replication_tasks should be built in `main.tf` using module outputs.

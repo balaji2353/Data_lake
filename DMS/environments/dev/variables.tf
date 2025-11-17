@@ -99,3 +99,44 @@ variable "tags" {
     Environment = "dev"
   }
 }
+
+variable "source_endpoints" {
+  description = "Map of source endpoint objects for multi-endpoint usage"
+  type = map(object({
+    endpoint_id   = string
+    engine_name   = string
+    username      = string
+    password      = string
+    server_name   = string
+    port          = number
+    database_name = string
+    tags          = optional(map(string))
+  }))
+  default = {}
+}
+
+variable "target_endpoints" {
+  description = "Map of target endpoint objects for multi-endpoint usage"
+  type = map(object({
+    endpoint_id   = string
+    bucket_name   = string
+    iam_role_name = string
+    tags          = optional(map(string))
+  }))
+  default = {}
+}
+
+variable "replication_tasks" {
+  description = "Map of replication task objects for multi-task usage"
+  type = map(object({
+    replication_instance_arn = string
+    source_endpoint_arn      = string
+    target_endpoint_arn      = string
+    table_mappings           = string
+    migration_type           = optional(string)
+    cdc_start_time           = optional(string)
+    start_replication_task   = optional(bool)
+    tags                     = optional(map(string))
+  }))
+  default = {}
+}
