@@ -5,3 +5,5 @@
 *.tfstate.*
 .terraform.lock.hcl
 *.backup
+/DMS/terraform.tfstate
+/DMS/.terraform/
