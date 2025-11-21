@@ -7,26 +7,31 @@ terraform/
 │   ├── dms/
 │   ├── mwaa/
 │   └── ...
-├── dev-airflow/           # Dev Airflow (local state)
-├── dev-dms/               # Dev DMS (local state)
-├── dev-[service]/         # Other dev services
-├── prod-airflow/          # Prod Airflow (remote state)
-├── prod-dms/              # Prod DMS (remote state)
-└── prod-[service]/        # Other prod services
+├── Airflow/
+│   ├── environments/
+│   │   ├── dev/           # Dev (local state)
+│   │   └── prod/          # Prod (remote state)
+│   └── modules/
+├── DMS/
+│   ├── environments/
+│   │   ├── dev/           # Dev (local state)
+│   │   └── prod/          # Prod (remote state)
+│   └── modules/
+└── [Other Services]/       # Similar structure
 ```
 
 ## Backend Configuration
 - **Dev environments**: Use local state files
-- **Prod environments**: Use remote S3 state (`prod-terraform-state`)
+- **Prod environments**: Use remote S3 state (`taxdatatest/terraform-state`)
 
 ## Usage
-Navigate to the specific environment directory:
+Navigate to the specific service and environment:
 ```bash
-cd dev-dms
+cd DMS/environments/dev
 terraform init
 terraform plan
 
-cd prod-dms
+cd DMS/environments/prod
 terraform init
 terraform plan
 ```
