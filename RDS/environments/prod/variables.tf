@@ -23,9 +23,16 @@ variable "master_username" {
 }
 
 variable "master_password" {
-  description = "Master password"
+  description = "Master password (only used if manage_master_user_password is false)"
   type        = string
+  default     = null
   sensitive   = true
+}
+
+variable "manage_master_user_password" {
+  description = "Set to true to allow RDS to manage the master user password in Secrets Manager"
+  type        = bool
+  default     = true
 }
 
 variable "skip_final_snapshot" {
