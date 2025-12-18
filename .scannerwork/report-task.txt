@@ -1,0 +1,7 @@
+projectKey=TTC_int
+serverUrl=https://globalsonarqube.deloitte.com
+serverVersion=2025.1.1.104738
+branch=DLH-Terraform
+dashboardUrl=https://globalsonarqube.deloitte.com/dashboard?id=TTC_int&branch=DLH-Terraform
+ceTaskId=01a4c197-5ee0-4e72-b4ca-bc99b931705c
+ceTaskUrl=https://globalsonarqube.deloitte.com/api/ce/task?id=01a4c197-5ee0-4e72-b4ca-bc99b931705c
